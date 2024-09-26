@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <style>
+        * {
+            text-align: center;
+        }
+
+        #board {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #board tr td {
+            border: 1px solid rgb(0, 0, 0);
+            background: #919191;
+            width: 16px;
+            height: 16px;
+            text-align: center;
+        }
+
+        #board tr td.clicked {
+            background: #4b4b4b;
+        }
+
+        #board tr td.mine {
+            background: #FF0000;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>지뢰찾기</h1>
+
+    <select  id="nanido" onchange="genGrid()">
+        <option value="easy">쉬운</option>
+        <option value="normal">보통</option>
+        <option value="diff">어려움</option>
+    </select>
+
+    <table id=board>
+    </table>
+    
+    <BUTTON onclick="genGrid();">새로운 게임</BUTTON>
+    <script>
+        let grid = document.getElementById("board");
+        genGrid();
+
+        function genGrid() {
+            grid.innerHTML = "";
+            if(document.getElementById("nanido").options[document.getElementById("nanido").selectedIndex].value == "easy"){// 쉬운 난이도일때 8X8칸
+                for (let i = 0; i < 8; i++) {
+                    row = grid.insertRow(i);
+                    for (var j = 0; j < 8; j++) {
+                        cell = row.insertCell(j);
+                        cell.onclick = function () { clickBox(this); };
+                        var mine = document.createAttribute("mine");
+                        if (Math.random() < 0.3)
+                            mine.value = "true";
+                        else
+                            mine.value = "false";
+                }
+                cell.setAttributeNode(mine);
+                }
+            }
+            else if(document.getElementById("nanido").options[document.getElementById("nanido").selectedIndex].value == "normal"){//보통 14X14
+                for (let i = 0; i < 14; i++) {
+                    row = grid.insertRow(i);
+                    for (var j = 0; j < 14; j++) {
+                        cell = row.insertCell(j);
+                        cell.onclick = function () { clickBox(this); };
+                        var mine = document.createAttribute("mine");
+                        if (Math.random() < 0.6)
+                            mine.value = "true";
+                        else
+                            mine.value = "false";
+                }
+                cell.setAttributeNode(mine);
+                }
+            }
+            else if(document.getElementById("nanido").options[document.getElementById("nanido").selectedIndex].value == "diff"){//어려움 20X20
+                for (let i = 0; i < 20; i++) {
+                    row = grid.insertRow(i);
+                    for (var j = 0; j < 20; j++) {
+                        cell = row.insertCell(j);
+                        cell.onclick = function () { clickBox(this); };
+                        var mine = document.createAttribute("mine");
+                        if (Math.random() < 0.9)
+                            mine.value = "true";
+                        else
+                            mine.value = "false";
+                }
+                
+                }
+            }
+            
+        }
+
+        function clickBox(cell) {
+
+            if (cell.getAttribute("mine") == "true") {
+                cell.className = "mine";
+            
+                if (confirm("찾기 성공!") == true) {
+                    genGrid();
+                } 
+
+
+            } else {
+                cell.className = "clicked";
+            }
+        }
+    </script>
+</body>
+
+</html>
